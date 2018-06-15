@@ -1,0 +1,15 @@
+DEFAULTTUNE ?= "cortexa53"
+
+require conf/machine/include/arm/arch-armv8a.inc
+
+TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
+
+# Little Endian base configs
+AVAILTUNES += "cortexa53 cortexa53-crypto"
+ARMPKGARCH_tune-cortexa53             = "cortexa53"
+ARMPKGARCH_tune-cortexa53-crypto      = "cortexa53"
+TUNE_FEATURES_tune-cortexa53          = "${TUNE_FEATURES_tune-armv8a-crc} cortexa53"
+TUNE_FEATURES_tune-cortexa53-crypto   = "${TUNE_FEATURES_tune-armv8a-crc-crypto} cortexa53"
+PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
+PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
